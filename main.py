@@ -48,8 +48,10 @@ def main():
     with open(path, encoding="utf-8") as handle:
         written = handle.read()
     validate(written)
-    if written != SENTENCE:
-        raise ValueError("written file does not match the sentence")
+    if written.encode("utf-8") != SENTENCE.encode("utf-8"):
+        raise ValueError("written bytes do not match the sentence")
+    if os.path.getsize(path) != len(SENTENCE.encode("utf-8")):
+        raise ValueError("written file size does not match the sentence")
     print("wrote %d characters to %s" % (len(SENTENCE), path))
 
 
